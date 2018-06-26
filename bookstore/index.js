@@ -30,6 +30,8 @@ const books = [
     { title: 'A Tale of Two Cities', author: 'Charles Dickens' },
     { title: 'War and Peach', author: 'Leo Tolstory' },
     { title: 'A Count of Monte Cristo', author: 'Alexandre Dumas' },
+    { title: 'The Federalist Papers', author: 'Alexander Hamilton', featured: true },
+    { title: 'Common Sense', author: 'Thomas Paine', featured: true },
 ];
 
 let h = React.createElement;
@@ -40,15 +42,35 @@ let h = React.createElement;
 //     h('li', null, book.title + ' by ' + book.author)
 // );
 
+// create a component
+let BookRow = (book) =>
+    h('li', null, book.title + ' by ' + book.author)
+
+let BookList = (props) =>
+    h('ul', { className: 'book-list' }, 
+        props.books.map(book =>
+            h(BookRow, book)
+        )
+    )
+
 
 // this is a virtual dom
+// let container = h('div', null, [
+//     h('h1', null, 'Bookstore'), 
+//     h('ul', { className: 'book-list' }, 
+//         books.map(book =>
+//             h('li', null, book.title + ' by ' + book.author)
+//         )
+//     ),
+//     h('footer', null, 'Copyright 2018'),
+// ]); 
+
+
 let container = h('div', null, [
     h('h1', null, 'Bookstore'), 
-    h('ul', { className: 'book-list' }, 
-        books.map(book =>
-            h('li', null, book.title + ' by ' + book.author)
-        )
-    ),
+    h(BookList, { books: book }),
+    h('h2', null, 'Featured'),
+    h(BookList, { books: books.filter(book => book.featured) }),
     h('footer', null, 'Copyright 2018'),
 ]); 
 
@@ -60,3 +82,7 @@ ReactDOM.render(
     container, 
     document.querySelector('.react-root')
 );
+
+
+
+
