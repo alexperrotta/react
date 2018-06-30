@@ -15,15 +15,14 @@ class MemoryCard extends Component {
   }
   
   render() {
-    let memoryCardInnerClass = 'memoryCardInner';
-    if(isFlipped == true) {
-      memoryCardInnerClass.append('flipped');
-    } else {
-      
-    }
+    let memoryCardInnerClass = 'MemoryCardInner';
+    if (this.state.isFlipped === true) {
+      memoryCardInnerClass += ' flipped';
+      console.log(memoryCardInnerClass);
+    } 
     return (
-      <div className="MemoryCard" onClick={ this.clickHandler }>
-        <div className="MemoryCardInner">
+      <div className="MemoryCard" onClick={ this.clickHandler.bind(this) }>
+        <div className="{memoryCardInnerClass}">
           
           <div className="MemoryCardBack"><img src="https://www.digitalcrafts.com/img/DigitalCrafts-Logo-Wrench.png"/></div>
 
