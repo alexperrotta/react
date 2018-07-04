@@ -29,6 +29,7 @@ function shuffle(a) {
   return a;
 }
 
+
 // “unflipping” two mismatched cards
 function unflipCards(card1Index, card2Index) {
   let card1 = {
@@ -39,7 +40,19 @@ function unflipCards(card1Index, card2Index) {
     ...this.state.deck[card2Index],
     isFlipped: false
   };
+  
+  let newDeck = this.state.deck.map( (card1, card2) => {
+    if (card1 != card2) {
+      return card1 && card2;
+    }
+    
+    this.setState({
+      deck: newDeck
+    });
+    
+  });
 }
+
 
 class App extends Component {
   
@@ -86,9 +99,9 @@ class App extends Component {
     if (newPickedCards = 2) {
       let card1Index = newPickedCards[0];
       let card2Index = newPickedCards[1];
-      // if () {
-      //   // unflip cards
-      // }
+      if (card1Index != card2Index) {
+        this.unflipCards(card1Index, card2Index);
+      }
       newPickedCards = [];
     }
 
