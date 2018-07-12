@@ -3,6 +3,17 @@ import './App.css';
 
 import MemoryCard from './MemoryCard.js';
 
+function shuffle(a) {
+  var j, x, i;
+  for (i = a.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      x = a[i];
+      a[i] = a[j];
+      a[j] = x;
+  }
+  return a;
+}
+
 // set up an array with 16 cards and returns that array
 function generateDeck() {
   let symbols = ['∆', 'ß', '£', '§', '•', '$', '+', 'ø'];
@@ -10,38 +21,14 @@ function generateDeck() {
   
   for (var i=0; i<16; i++) {
     deck.push({
-      card: {
-        isFlipped: false,
-        Symbol: symbols[i%8]
-      }
-    })
+      symbol: symbols[i%8],
+      isFlipped: false
+    });
   }
+
   shuffle(deck);
   return deck;
 }
-
-
-function shuffle(a) {
-  for (let i = a.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-  
-  let newDeck = this.state.deck.map( (card1, card2) => {
-    if (card1 !== card2) {
-      return card1 && card2;
-    }
-    
-    this.setState({
-      deck: newDeck
-    });
-    
-  });
-
-  
-
 
 class App extends Component {
   
@@ -56,9 +43,8 @@ class App extends Component {
   // cardIndex rep. the card being flipped over
   pickCard(cardIndex) {
     let newDeck = this.state.deck.map(card => {
-      return {...card};
+      return {...card}
     });
-
     newDeck[cardIndex].isFlipped = true;
 
     let newPickedCards = this.state.pickedCards.concat(cardIndex);
@@ -89,34 +75,27 @@ class App extends Component {
   // “unflipping” two mismatched cards
   unflipCards(card1Index, card2Index) {
     let newDeck = this.state.deck.map(card => {
-      return {...card};
+      return {...card}
+    });
+
+    newDeck[card1Index].isFlipped = false;
+    newDeck[card2Index].isFlipped = false;
+
+    this.setState({
+      deck: newDeck
     });
   }
-
   
   render() {
-
-    var row1 = [];
-    var row2 = [];
-    var row3 = [];
-    var row4 = [];
-    for (var i=0; i<4; i++) {
-      row1.push(<MemoryCard />);
-      row2.push(<MemoryCard />);
-      row3.push(<MemoryCard />);
-      row4.push(<MemoryCard />);
-    }
 
     /* this is an array that holds 16 MemoryCard components
       we are using props to tell the Memory Card what symbol to display and if the card is flipped or not
       use key= to differentiate between identical sibling components, this is index and is a 2nd parameter
       we set another prop called pickCard, bind(this, index) is making sure that the function remembers which App instance it is, and it’s also passing down the cardIndex for when the function gets called
     */
-    let cardsJSX = this.state.deck.map( (card, index) => {
-      return <MemoryCard symbol={card.symbol} 
-                        isFlipped={card.isFlipped} 
-                        pickCard={this.pickCard.bind(this, index)} />
-    });
+  let cardsJSX = this.state.deck.map((card, index) => {
+    return <MemoryCard symbol={card.symbol}  isFlipped={card.isFlipped} pickCard={this.pickCard.bind(this, index)} />
+  });
 
     return (
       <div className="App">
