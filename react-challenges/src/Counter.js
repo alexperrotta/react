@@ -1,4 +1,10 @@
+// Refactor - remove the IncrementItem variable
+// define the function inside the button, then you don't have to add .bind()
+// { ()=> {this.setState({num: this.state.num +1}) } }
+
 import React, { Component } from 'react';
+
+
 
 class Counter extends Component {
 
@@ -17,12 +23,12 @@ class Counter extends Component {
         });
     }
     
-// Pass the method to the button
+    // Pass the method to the button
     render() {
         return(
             <div>
                 <p>{this.state.num}</p>
-                <button onClick={this.IncrementItem}>Click to increment by 1</button>
+                <button onClick={this.IncrementItem.bind(this)}>Click to increment by 1</button>
             </div>
         )
     }
