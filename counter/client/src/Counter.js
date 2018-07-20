@@ -11,29 +11,47 @@ class Counter extends Component {
     } 
 
     componentWillMount() {
-        axios.get('/').then( ({counter}) => {
-            this.setState(counter);
+        axios.get('/').then( ({data}) => {
+            this.setState({counter: data.counter});
         })
     }
 
     addCounter() {
-        axios.post('/add').then( ({counter}) => this.setState({counter}))
+        axios.post('/add').then( ({data}) => {
+            this.setState({counter: data.counter});
+        })
     }
 
 
     subtractCounter() {
-        axios.post('/subtract').then(counter => this.setState({counter}))
+        axios.post('/subtract').then( ({data}) => {
+            this.setState({counter: data.counter});
+        })
     }
 
     render() {
         return(
             <div>
                 <h1>{this.state.counter}</h1>
-                <button onClick={ this.addCounter.bind(this) } >+</button>
-                <button onClick={ this.subtractCounter.bind(this) } >-</button>
+                <button onClick={ this.addCounter() } >+</button>
+                <button onClick={ this.subtractCounter() } >-</button>
             </div>
         )
     }
 }
 
 export default Counter;
+
+
+// handleClick() {
+//     this.setState({
+//         value: this.state.value + 1
+//     });
+// }
+
+
+// render() {
+//     return(
+//         <div>
+//             <h1 onClick={ this.handleClick.bind(this)}>{this.state.value}</h1>
+//         </div>
